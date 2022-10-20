@@ -5,7 +5,11 @@ var title = document.querySelector(`.poster-title`)
 var quote = document.querySelector(`.poster-quote`)
 var homePage = document.querySelector(`.main-poster`)
 var makeNewPoster = document.querySelector(`.poster-form`)
-var makePosterButtton = doucment.querySelector(`.show-form`)
+var makePosterButton = document.querySelector(`.show-form`)
+var savedButton = document.querySelector(`.show-saved`)
+var savedPostersPage = document.querySelector(`.saved-posters`)
+var backToMainButton = document.querySelector(`.back-to-main`)
+var nevermindButton = document.querySelector(`.show-main`)
 
 // we've provided you with some data to work with 👇
 var images = [
@@ -111,16 +115,16 @@ var currentPoster;
 // event listeners go here 👇
 window.addEventListener(`load`, getNewLoadPoster)
 randomButton.addEventListener(`click`, getNewLoadPoster)
+makePosterButton.addEventListener(`click`, loadCreateForm)
+savedButton.addEventListener('click', showSavedPosters)
+backToMainButton.addEventListener(`click`, goBackToMain)
+
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
 function getRandomIndex(array) {
   var arrayIndex = Math.floor(Math.random() * array.length);
   return array[arrayIndex]
 }
-
-
-
-
 
 function loadRandomPoster() {
     currentPoster = new Poster(getRandomIndex(images), getRandomIndex(titles), getRandomIndex(quotes))
@@ -130,14 +134,29 @@ function randomLoadPoster() {
     image.src = currentPoster.imageURL
     title.innerText = currentPoster.title
     quote.innerText = currentPoster.quote
-
     }
 
 function getNewLoadPoster() {
   loadRandomPoster()
   randomLoadPoster()
-
 }
 
+function loadCreateForm() {
+  homePage.classList.add("hidden");
+  makeNewPoster.classList.remove("hidden")
+}
 
+function showSavedPosters(){
+  homePage.classList.add("hidden");
+  savedPostersPage.classList.remove("hidden")
+}
 
+function goBackToMain() {
+  homePage.classList.remove("hidden");
+  savedPostersPage.classList.add("hidden")
+}
+
+function nevermindGoBack() {
+  homePage.classList.remove("hidden");
+  makeNewPoster.classList.add("hidden")
+}
