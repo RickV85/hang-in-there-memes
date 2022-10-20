@@ -10,6 +10,11 @@ var savedButton = document.querySelector(`.show-saved`)
 var savedPostersPage = document.querySelector(`.saved-posters`)
 var backToMainButton = document.querySelector(`.back-to-main`)
 var nevermindButton = document.querySelector(`.show-main`)
+var createImage = document.querySelector(`#poster-image-url`)
+var createTitle = document.querySelector(`#poster-title`)
+var createQuote = document.querySelector(`#poster-quote`)
+var createPosterButton = document.querySelector(`.make-poster`)
+
 
 // we've provided you with some data to work with 👇
 var images = [
@@ -117,7 +122,10 @@ window.addEventListener(`load`, getNewLoadPoster)
 randomButton.addEventListener(`click`, getNewLoadPoster)
 makePosterButton.addEventListener(`click`, loadCreateForm)
 savedButton.addEventListener('click', showSavedPosters)
-backToMainButton.addEventListener(`click`, goBackToMain)
+backToMainButton.addEventListener(`click`, goHome)
+nevermindButton.addEventListener(`click`, goHome)
+createPosterButton.addEventListener(`click`, createPoster)
+
 
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
@@ -141,6 +149,12 @@ function getNewLoadPoster() {
   randomLoadPoster()
 }
 
+function goHome() {
+  homePage.classList.remove(`hidden`)
+  makeNewPoster.classList.add("hidden")
+  savedPostersPage.classList.add("hidden")
+}
+
 function loadCreateForm() {
   homePage.classList.add("hidden");
   makeNewPoster.classList.remove("hidden")
@@ -151,12 +165,31 @@ function showSavedPosters(){
   savedPostersPage.classList.remove("hidden")
 }
 
-function goBackToMain() {
-  homePage.classList.remove("hidden");
-  savedPostersPage.classList.add("hidden")
+function displayCreatedPoster(createdPoster) {
+  image.src = createdPoster.imageURL
+  title.innerText = createdPoster.title
+  quote.innerText = createdPoster.quote
+  goHome()
 }
 
-function nevermindGoBack() {
-  homePage.classList.remove("hidden");
-  makeNewPoster.classList.add("hidden")
+function createPoster(event) {
+  event.preventDefault()
+  var newImage = createImage.value
+  var newTitle = createTitle.value
+  var newQuote = createQuote.value
+  images.push(newImage)
+  titles.push(newTitle)
+  quotes.push(newQuote)
+
+var createdPoster = new Poster(newImage, newTitle, newQuote)
+
+image.src = createdPoster.imageURL
+title.innerText = createdPoster.title
+quote.innerText = createdPoster.quote
+
+goHome()
+
+displayCreatedPoster(createdPoster) 
+
 }
+
