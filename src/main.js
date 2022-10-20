@@ -174,12 +174,18 @@ function displayCreatedPoster(createdPoster) {
 
 function createPoster(event) {
   event.preventDefault()
-  images.push(createImage.value)
-  titles.push(createTitle.value)
-  quotes.push(createQuote.value)
+
+  var newImage = createImage.value
+  var newTitle = createTitle.value
+  var newQuote = createQuote.value
+  images.push(newImage)
+  titles.push(newTitle)
+  quotes.push(newQuote)
 
 
-var createdPoster = new Poster(createImage.value, createTitle.value, createQuote.value)
+  
+
+var createdPoster = new Poster(newImage, newTitle, newQuote)
 
 image.src = createdPoster.imageURL
 title.innerText = createdPoster.title
