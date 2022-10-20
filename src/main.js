@@ -165,7 +165,12 @@ function showSavedPosters(){
   savedPostersPage.classList.remove("hidden")
 }
 
-
+function displayCreatedPoster(createdPoster) {
+  image.src = createdPoster.imageURL
+  title.innerText = createdPoster.title
+  quote.innerText = createdPoster.quote
+  goHome()
+}
 
 function createPoster(event) {
   event.preventDefault()
