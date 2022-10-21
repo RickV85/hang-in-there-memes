@@ -127,8 +127,7 @@ savedButton.addEventListener('click', showSavedPosters)
 backToMainButton.addEventListener(`click`, goHome)
 nevermindButton.addEventListener(`click`, goHome)
 createPosterButton.addEventListener(`click`, createPoster)
-// Should this be the saveCurrentPoster?
-savePosterButton.addEventListener(`click`, preventDuplicates)
+savePosterButton.addEventListener(`click`, saveCurrentPoster)
 savedButton.addEventListener('click', displayPosterPallete)
 
 // functions and event handlers go here 👇
@@ -169,10 +168,15 @@ function showSavedPosters(){
   savedPostersPage.classList.remove("hidden")
 }
 
-function displayCreatedPoster(createdPoster) {
-  image.src = createdPoster.imageURL
-  title.innerText = createdPoster.title
-  quote.innerText = createdPoster.quote
+function displayCreatedPoster() {
+  image.src = currentPoster.imageURL
+  title.innerText = currentPoster.title
+  quote.innerText = currentPoster.quote
+
+  // currentPoster.imageURL = createdPoster.imageURL
+  // currentPoster.title = createdPoster.title
+  // currentPoster.quote = createdPoster.quote
+
   goHome()
 }
 
@@ -185,14 +189,14 @@ function createPoster(event) {
   titles.push(newTitle)
   quotes.push(newQuote)
 
-var createdPoster = new Poster(newImage, newTitle, newQuote)
+currentPoster = new Poster(newImage, newTitle, newQuote)
 
 
 goHome()
 
-displayCreatedPoster(createdPoster) 
+displayCreatedPoster() 
 
-preventDuplicates(createdPoster)
+// preventDuplicates(createdPoster)
 
 }
 
@@ -204,6 +208,7 @@ preventDuplicates(createdPoster)
 // Bullet 3 - Show saved posters section
 
 function displayPosterPallete() {
+// Starting point for us to push in to. Creates a space in between article tags.
 savedPosterGallery.innerHTML = " ";
  for (var i = 0; i < savedPosters.length; i++) {
    savedPosterGallery.innerHTML = savedPosterGallery.innerHTML +
@@ -215,24 +220,25 @@ savedPosterGallery.innerHTML = " ";
  };
 }
 
-function preventDuplicates() {
+function saveCurrentPoster() {
   if (!savedPosters.includes(currentPoster)) {
     savedPosters.push(currentPoster)
-} else if (!savedPosters.includes(createdPoster)) {
-  savedPosters.push(createdPoster)
+} 
 }
-}
+// else if (!savedPosters.includes(createdPoster)) {
+//   savedPosters.push(createdPoster)
+// }
+// }
 
-function saveCurrentPoster() {
-  var newSavedPosterImage = savePoster.imageURL
-  var newSavedPosterTitle = savePoster.title
-  var newSavedPosterQuote = savePoster.quote
+// function saveCurrentPoster(currentPoster) {
+//   var newSavedPosterImage = currentPoster.imageURL
+//   var newSavedPosterTitle = currentPoster.title
+//   var newSavedPosterQuote = currentPoster.quote
 
-  var savePoster = new Poster(newSavedPosterImage, newSavedPosterTitle, newSavedPosterQuote)
+//   var currentPoster = new Poster(newSavedPosterImage, newSavedPosterTitle, newSavedPosterQuote)
 
-  preventDuplicates(savePoster)
-
-}
+//   preventDuplicatesCurrent(currentPoster)
+// }
 
 
 
