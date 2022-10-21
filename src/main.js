@@ -18,6 +18,7 @@ var savePosterButton = document.querySelector(`.save-poster`)
 var savedPosterGallery = document.querySelector('.saved-posters-grid')
 
 
+
 // we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
@@ -128,7 +129,7 @@ backToMainButton.addEventListener(`click`, goHome)
 nevermindButton.addEventListener(`click`, goHome)
 createPosterButton.addEventListener(`click`, createPoster)
 savePosterButton.addEventListener(`click`, saveCurrentPoster)
-savedButton.addEventListener('click', displayPosterPallete)
+savedPosterGallery.addEventListener(`dblclick`, deleteSavedPoster)
 
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
@@ -138,14 +139,14 @@ function getRandomIndex(array) {
 }
 
 function loadRandomPoster() {
-    currentPoster = new Poster(getRandomIndex(images), getRandomIndex(titles), getRandomIndex(quotes))
-  }
+  currentPoster = new Poster(getRandomIndex(images), getRandomIndex(titles), getRandomIndex(quotes))
+}
 
 function randomLoadPoster() {
-    image.src = currentPoster.imageURL
-    title.innerText = currentPoster.title
-    quote.innerText = currentPoster.quote
-    }
+  image.src = currentPoster.imageURL
+  title.innerText = currentPoster.title
+  quote.innerText = currentPoster.quote
+}
 
 function getNewLoadPoster() {
   loadRandomPoster()
@@ -159,24 +160,20 @@ function goHome() {
 }
 
 function loadCreateForm() {
-  homePage.classList.add("hidden");
+  homePage.classList.add("hidden")
   makeNewPoster.classList.remove("hidden")
 }
 
 function showSavedPosters(){
-  homePage.classList.add("hidden");
+  homePage.classList.add("hidden")
   savedPostersPage.classList.remove("hidden")
+  displayPosterPallete()
 }
 
 function displayCreatedPoster() {
   image.src = currentPoster.imageURL
   title.innerText = currentPoster.title
   quote.innerText = currentPoster.quote
-
-  // currentPoster.imageURL = createdPoster.imageURL
-  // currentPoster.title = createdPoster.title
-  // currentPoster.quote = createdPoster.quote
-
   goHome()
 }
 
@@ -188,57 +185,36 @@ function createPoster(event) {
   images.push(newImage)
   titles.push(newTitle)
   quotes.push(newQuote)
-
-currentPoster = new Poster(newImage, newTitle, newQuote)
-
-
-goHome()
-
-displayCreatedPoster() 
-
-// preventDuplicates(createdPoster)
-
+  currentPoster = new Poster(newImage, newTitle, newQuote)
+  goHome()
+  displayCreatedPoster() 
 }
 
-// These are the new functions for iteration 3
-
-// Bullet one/two - save the currently displayed poster and
-// do not allow duplicates
-
-// Bullet 3 - Show saved posters section
-
 function displayPosterPallete() {
-// Starting point for us to push in to. Creates a space in between article tags.
-savedPosterGallery.innerHTML = " ";
- for (var i = 0; i < savedPosters.length; i++) {
+  savedPosterGallery.innerHTML = " ";
+  for (var i = 0; i < savedPosters.length; i++) {
    savedPosterGallery.innerHTML = savedPosterGallery.innerHTML +
-   `<article class="mini-poster" id="${savedPosters[i].id}">
-   <img class="mini-poster-img" src="${savedPosters[i].imageURL}" alt="inspirational">
-   <h2 class="mini-poster-title">${savedPosters[i].title}</h2>
-   <h4 class="mini-poster-quote">${savedPosters[i].quote}</h4>
-</article>`;
- };
+   `<section class="mini-poster" id="${savedPosters[i].id}">
+      <img class="mini-poster-img" id="${savedPosters[i].id}" src="${savedPosters[i].imageURL}" alt="inspirational">
+      <h2 class="mini-poster-title" id="${savedPosters[i].id}">${savedPosters[i].title}</h2>
+      <h4 class="mini-poster-quote" id="${savedPosters[i].id}">${savedPosters[i].quote}</h4>
+  </section>`
+ }
+}
+
+function deleteSavedPoster(event) {
+  for (var i = 0; i < savedPosters.length;i++) {
+   if(savedPosters[i].id == event.target.id) {
+    savedPosters.splice(i, 1)
+   }
+  }
+  displayPosterPallete()
 }
 
 function saveCurrentPoster() {
   if (!savedPosters.includes(currentPoster)) {
     savedPosters.push(currentPoster)
-} 
+  } 
 }
-// else if (!savedPosters.includes(createdPoster)) {
-//   savedPosters.push(createdPoster)
-// }
-// }
-
-// function saveCurrentPoster(currentPoster) {
-//   var newSavedPosterImage = currentPoster.imageURL
-//   var newSavedPosterTitle = currentPoster.title
-//   var newSavedPosterQuote = currentPoster.quote
-
-//   var currentPoster = new Poster(newSavedPosterImage, newSavedPosterTitle, newSavedPosterQuote)
-
-//   preventDuplicatesCurrent(currentPoster)
-// }
-
 
 
