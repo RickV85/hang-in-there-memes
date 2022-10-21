@@ -47,5 +47,5 @@ Applied Git Workflow, Google, Turing, our cohort mates :)
 Wins:
 Technical Wins included: setting up the functionality to manipulate the DOM and UI. Saving the saved posters and pushing it into our data model. 
 Challenges included delete function and display issues with the saved poster.
-As a pair, we were able to overcome this challenge through by rubber ducking off each other and talking though the issues verbally out loud. 
+As a pair, we were able to overcome this challenge by rubber ducking off each other and talking though the issues verbally out loud. 
 
