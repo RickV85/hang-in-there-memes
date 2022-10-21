@@ -1,4 +1,3 @@
-// query selector variables go here 👇
 var randomButton = document.querySelector(`.show-random`)
 var image = document.querySelector(`.poster-img`)
 var title = document.querySelector(`.poster-title`)
@@ -15,11 +14,8 @@ var createTitle = document.querySelector(`#poster-title`)
 var createQuote = document.querySelector(`#poster-quote`)
 var createPosterButton = document.querySelector(`.make-poster`)
 var savePosterButton = document.querySelector(`.save-poster`)
-var savedPosterGallery = document.querySelector('.saved-posters-grid')
+var savedPosterGallery = document.querySelector(`.saved-posters-grid`)
 
-
-
-// we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -120,7 +116,6 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 
-// event listeners go here 👇
 window.addEventListener(`load`, getNewLoadPoster)
 randomButton.addEventListener(`click`, getNewLoadPoster)
 makePosterButton.addEventListener(`click`, loadCreateForm)
@@ -131,8 +126,6 @@ createPosterButton.addEventListener(`click`, createPoster)
 savePosterButton.addEventListener(`click`, saveCurrentPoster)
 savedPosterGallery.addEventListener(`dblclick`, deleteSavedPoster)
 
-// functions and event handlers go here 👇
-// (we've provided one for you to get you started)!
 function getRandomIndex(array) {
   var arrayIndex = Math.floor(Math.random() * array.length);
   return array[arrayIndex]
@@ -164,16 +157,14 @@ function loadCreateForm() {
   makeNewPoster.classList.remove("hidden")
 }
 
-function showSavedPosters(){
+function showSavedPosters() {
   homePage.classList.add("hidden")
   savedPostersPage.classList.remove("hidden")
   displayPosterPallete()
 }
 
 function displayCreatedPoster() {
-  image.src = currentPoster.imageURL
-  title.innerText = currentPoster.title
-  quote.innerText = currentPoster.quote
+  randomLoadPoster()
   goHome()
 }
 
@@ -193,12 +184,12 @@ function createPoster(event) {
 function displayPosterPallete() {
   savedPosterGallery.innerHTML = " ";
   for (var i = 0; i < savedPosters.length; i++) {
-   savedPosterGallery.innerHTML = savedPosterGallery.innerHTML +
-   `<section class="mini-poster" id="${savedPosters[i].id}">
-      <img class="mini-poster-img" id="${savedPosters[i].id}" src="${savedPosters[i].imageURL}" alt="inspirational">
+  savedPosterGallery.innerHTML = savedPosterGallery.innerHTML +
+    `<section class="mini-poster" id="${savedPosters[i].id}">
+      <img class="mini-poster-img" id="${savedPosters[i].id}" src="${savedPosters[i].imageURL}" alt="inspirational poster">
       <h2 class="mini-poster-title" id="${savedPosters[i].id}">${savedPosters[i].title}</h2>
       <h4 class="mini-poster-quote" id="${savedPosters[i].id}">${savedPosters[i].quote}</h4>
-  </section>`
+    </section>`
  }
 }
 
@@ -216,5 +207,3 @@ function saveCurrentPoster() {
     savedPosters.push(currentPoster)
   } 
 }
-
-
