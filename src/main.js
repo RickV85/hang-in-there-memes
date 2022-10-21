@@ -14,6 +14,8 @@ var createImage = document.querySelector(`#poster-image-url`)
 var createTitle = document.querySelector(`#poster-title`)
 var createQuote = document.querySelector(`#poster-quote`)
 var createPosterButton = document.querySelector(`.make-poster`)
+var savePosterButton = document.querySelector(`.save-poster`)
+var savedPosterGallery = document.querySelector('.saved-posters-grid')
 
 
 // we've provided you with some data to work with 👇
@@ -125,7 +127,8 @@ savedButton.addEventListener('click', showSavedPosters)
 backToMainButton.addEventListener(`click`, goHome)
 nevermindButton.addEventListener(`click`, goHome)
 createPosterButton.addEventListener(`click`, createPoster)
-
+savePosterButton.addEventListener(`click`, saveCurrentPoster)
+savedButton.addEventListener('click', displayPosterPallete)
 
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
@@ -165,10 +168,15 @@ function showSavedPosters(){
   savedPostersPage.classList.remove("hidden")
 }
 
-function displayCreatedPoster(createdPoster) {
-  image.src = createdPoster.imageURL
-  title.innerText = createdPoster.title
-  quote.innerText = createdPoster.quote
+function displayCreatedPoster() {
+  image.src = currentPoster.imageURL
+  title.innerText = currentPoster.title
+  quote.innerText = currentPoster.quote
+
+  // currentPoster.imageURL = createdPoster.imageURL
+  // currentPoster.title = createdPoster.title
+  // currentPoster.quote = createdPoster.quote
+
   goHome()
 }
 
@@ -181,15 +189,56 @@ function createPoster(event) {
   titles.push(newTitle)
   quotes.push(newQuote)
 
-var createdPoster = new Poster(newImage, newTitle, newQuote)
+currentPoster = new Poster(newImage, newTitle, newQuote)
 
-image.src = createdPoster.imageURL
-title.innerText = createdPoster.title
-quote.innerText = createdPoster.quote
 
 goHome()
 
-displayCreatedPoster(createdPoster) 
+displayCreatedPoster() 
+
+// preventDuplicates(createdPoster)
 
 }
+
+// These are the new functions for iteration 3
+
+// Bullet one/two - save the currently displayed poster and
+// do not allow duplicates
+
+// Bullet 3 - Show saved posters section
+
+function displayPosterPallete() {
+// Starting point for us to push in to. Creates a space in between article tags.
+savedPosterGallery.innerHTML = " ";
+ for (var i = 0; i < savedPosters.length; i++) {
+   savedPosterGallery.innerHTML = savedPosterGallery.innerHTML +
+   `<article class="mini-poster" id="${savedPosters[i].id}">
+   <img class="mini-poster-img" src="${savedPosters[i].imageURL}" alt="inspirational">
+   <h2 class="mini-poster-title">${savedPosters[i].title}</h2>
+   <h4 class="mini-poster-quote">${savedPosters[i].quote}</h4>
+</article>`;
+ };
+}
+
+function saveCurrentPoster() {
+  if (!savedPosters.includes(currentPoster)) {
+    savedPosters.push(currentPoster)
+} 
+}
+// else if (!savedPosters.includes(createdPoster)) {
+//   savedPosters.push(createdPoster)
+// }
+// }
+
+// function saveCurrentPoster(currentPoster) {
+//   var newSavedPosterImage = currentPoster.imageURL
+//   var newSavedPosterTitle = currentPoster.title
+//   var newSavedPosterQuote = currentPoster.quote
+
+//   var currentPoster = new Poster(newSavedPosterImage, newSavedPosterTitle, newSavedPosterQuote)
+
+//   preventDuplicatesCurrent(currentPoster)
+// }
+
+
 
