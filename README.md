@@ -38,8 +38,6 @@ This project was a fun way to flex our code muscles and was a massive achievemen
 Write clean, DRY JavaScript and leverage classes, functions and iterations. 
 Manipulate the page after it has loaded adding, removing, and updating elements on the DOM
 
-<br>
-
 Defined collaboration skills
 We used the technical language of Javascript, git, github.
 Applied Git Workflow, Google, Turing, our cohort mates :)
