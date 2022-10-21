@@ -14,6 +14,7 @@ var createImage = document.querySelector(`#poster-image-url`)
 var createTitle = document.querySelector(`#poster-title`)
 var createQuote = document.querySelector(`#poster-quote`)
 var createPosterButton = document.querySelector(`.make-poster`)
+var savePosterButton = document.querySelector(`.save-poster`)
 
 
 // we've provided you with some data to work with 👇
@@ -121,11 +122,11 @@ var currentPoster;
 window.addEventListener(`load`, getNewLoadPoster)
 randomButton.addEventListener(`click`, getNewLoadPoster)
 makePosterButton.addEventListener(`click`, loadCreateForm)
-savedButton.addEventListener('click', showSavedPosters)
+savedButton.addEventListener('click', showSavedPosters, addSavedPostersToGrid)
 backToMainButton.addEventListener(`click`, goHome)
 nevermindButton.addEventListener(`click`, goHome)
 createPosterButton.addEventListener(`click`, createPoster)
-
+savePosterButton.addEventListener(`click`, saveCurrentPoster)
 
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
@@ -193,3 +194,37 @@ displayCreatedPoster(createdPoster)
 
 }
 
+// These are the new functions for iteration 3
+
+// Bullet one/two - save the currently displayed poster and
+// do not allow duplicates
+
+function preventDuplicates() {
+  if (!savedPosters.includes(currentPoster)) {
+    savedPosters.push(currentPoster)
+}
+}
+
+function saveCurrentPoster() {
+  var newSavedPosterImage = currentPoster.imageURL
+  var newSavedPosterTitle = currentPoster.title
+  var newSavedPosterQuote = currentPoster.quote
+
+  var savePoster = new Poster(newSavedPosterImage, newSavedPosterTitle, newSavedPosterQuote)
+
+  preventDuplicates(savePoster)
+
+}
+
+
+
+// Bullet 3 - Show saved posters section
+
+function addSavedPostersToGrid (savedPosters) {
+  for (let index = 0; index < savedPosters.length; index++) {
+    const poster = savedPosters[index];
+    poster.imageURL.add(document.querySelector(".saved-posters-grid"))
+    poster.title.add(document.querySelector(".saved-posters-grid"))
+    poster.quote.add(document.querySelector(".saved-posters-grid"))
+  }
+}
