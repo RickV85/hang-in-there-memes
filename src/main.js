@@ -1,3 +1,5 @@
+// These are  global variables that are assigned to elements in the HTML
+// so we can manipulate them with JS. Classes are refereneced with '.' and id's with '#' prefixes.
 var randomButton = document.querySelector(`.show-random`)
 var image = document.querySelector(`.poster-img`)
 var title = document.querySelector(`.poster-title`)
@@ -113,9 +115,15 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
+// These global variables were really important! The saved posters array is where we pushed the
+// posters that were saved by the savePosterButton event listener and saveCurrentPoster function.
+// We reassigned the global var currentPoster in all below functions instead of creating new
+// instances which made things much easier like preventing duplicates.
 var savedPosters = [];
 var currentPoster;
 
+// Event listeners assigned to the queried vars above. First one is on the window to allow us
+// to run a functon on page load, the rest of the functions are invoked by clicks or dblclick.
 window.addEventListener(`load`, getNewLoadPoster)
 randomButton.addEventListener(`click`, getNewLoadPoster)
 makePosterButton.addEventListener(`click`, loadCreateForm)
@@ -126,48 +134,56 @@ createPosterButton.addEventListener(`click`, createPoster)
 savePosterButton.addEventListener(`click`, saveCurrentPoster)
 savedPosterGallery.addEventListener(`dblclick`, deleteSavedPoster)
 
+// This was given to us but just generates a random number.
 function getRandomIndex(array) {
   var arrayIndex = Math.floor(Math.random() * array.length);
   return array[arrayIndex]
 }
-
+// Reassigns the current poster to a new instance of the Poster class with a random image, title and quote
 function loadRandomPoster() {
   currentPoster = new Poster(getRandomIndex(images), getRandomIndex(titles), getRandomIndex(quotes))
 }
-
+// Reassigns the global vars for image source, title and quote to the currentPoster's properties
 function randomLoadPoster() {
   image.src = currentPoster.imageURL
   title.innerText = currentPoster.title
   quote.innerText = currentPoster.quote
 }
-
+// Combines the last two functions in to one function invoked when the random buton is pressed
 function getNewLoadPoster() {
   loadRandomPoster()
   randomLoadPoster()
 }
-
+// Ressaigns the home page class list to unhide it and hide the poster form and saved poster pages
 function goHome() {
   homePage.classList.remove(`hidden`)
   makeNewPoster.classList.add("hidden")
   savedPostersPage.classList.add("hidden")
 }
-
+// Reassigns the class of home page to hide and show the make a new poster form
 function loadCreateForm() {
   homePage.classList.add("hidden")
   makeNewPoster.classList.remove("hidden")
 }
-
+// Reassigns the class of the home page to hide it and show the saved posters page.
+// It also invokes the function that pushes the saved poster array in to the poster grid to show them
 function showSavedPosters() {
   homePage.classList.add("hidden")
   savedPostersPage.classList.remove("hidden")
   displayPosterPallete()
 }
-
+// This is only invoked when the below createPoster function is invoked and is used to
+// reassign the currentPoster and hide the create poster form/show the home page/section
 function displayCreatedPoster() {
   randomLoadPoster()
   goHome()
 }
-
+// From MDN "tells the user agent that if the event does not get explicitly handled, its default action should not be taken as it normally would be"
+// Local vars assigned to the values of the global vars selecting the ids for the <input>'s on index.html lines 26,28 and 30
+// Those user created inputs in local vars are pushed in to the arrays for each respective element
+// currentPoster is reassigned to a new instance of Poster with these local vars of the user input
+// goHome invoked to hide this form and show the main section
+// displayCreated poster reassigns the global vars for the main section's poster display with currentPoster
 function createPoster(event) {
   event.preventDefault()
   var newImage = createImage.value
@@ -180,19 +196,36 @@ function createPoster(event) {
   goHome()
   displayCreatedPoster() 
 }
-
+// *** Most complicated and new to me function for sure! ***
+// savedPosterGallery is assigned to the `.saved-posters-grid` artice on line 38 of index
+// That article needs to make a space in between the tags to put new sections of each saved poster object,
+// so assigned it's innerHTML (between the article tags) it to just a " "
+// For loop created with a upper bound of the total num of posters in the savedPosters array
+// On each element, that blank space in the innerHTML is assigned to a new <section> with a class of
+// "mini-poster" found at line 112 in the CSS, an interpolated ID from the savedPoster objects,
+// the savedPoster <image with ".mini-poster-img" from line127 of the CSS, the interpolated id for that object,
+// the imageURL and a boilerplate alt text. The next two classes are at 132 and 133 in the CSS and follow similar procedure.
+// Used the <h2> and <h4> respectively as they corresponded to each of those classes.
+// The initial "savedPosterGallery.innerHTML + " allows compounding of each element to build this article out as
+// it cycles through the loop of savedPosters. It essentially just keeps adding the new one on each time.
+// *** NOTE ABOUT CLASSES HERE, the dash is neccesary to combine "mini-poster" and the "img" "h2" "h4"
+// despite it being shown in the index.html using combinations of classes i.e. "poster-form hidden"
+// combines the poster-form class on line 77 and the global hidden class on 32. Not exactly sure why but
+// without the dases here, the savedPosters are shown in the grid but are not formatted properly at all. ***
 function displayPosterPallete() {
   savedPosterGallery.innerHTML = " ";
   for (var i = 0; i < savedPosters.length; i++) {
   savedPosterGallery.innerHTML = savedPosterGallery.innerHTML +
     `<section class="mini-poster" id="${savedPosters[i].id}">
       <img class="mini-poster-img" id="${savedPosters[i].id}" src="${savedPosters[i].imageURL}" alt="inspirational poster">
-      <h2 class="mini-poster-title" id="${savedPosters[i].id}">${savedPosters[i].title}</h2>
-      <h4 class="mini-poster-quote" id="${savedPosters[i].id}">${savedPosters[i].quote}</h4>
+      <h2 class="mini-poster-h2" id="${savedPosters[i].id}">${savedPosters[i].title}</h2>
+      <h4 class="mini-poster-h4" id="${savedPosters[i].id}">${savedPosters[i].quote}</h4>
     </section>`
  }
 }
-
+// For/if function to identify the id of the dblclik'ed object by ID with the event parameter coming from
+// the event listener for the double clicked object, pass it in and use event.target.id and find it in the
+// savedPosters objects, then splice it out at index and rerun our above function to recreate the savedPosters gallery.
 function deleteSavedPoster(event) {
   for (var i = 0; i < savedPosters.length;i++) {
    if(savedPosters[i].id == event.target.id) {
@@ -201,7 +234,7 @@ function deleteSavedPoster(event) {
   }
   displayPosterPallete()
 }
-
+// Prevent duplication while pushing the currently shown poster in to savedPosters.
 function saveCurrentPoster() {
   if (!savedPosters.includes(currentPoster)) {
     savedPosters.push(currentPoster)
